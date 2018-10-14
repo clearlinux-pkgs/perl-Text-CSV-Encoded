@@ -4,16 +4,15 @@
 #
 Name     : perl-Text-CSV-Encoded
 Version  : 0.25
-Release  : 1
+Release  : 2
 URL      : https://cpan.metacpan.org/authors/id/Z/ZA/ZARQUON/Text-CSV-Encoded-0.25.tar.gz
 Source0  : https://cpan.metacpan.org/authors/id/Z/ZA/ZARQUON/Text-CSV-Encoded-0.25.tar.gz
 Source1  : http://http.debian.net/debian/pool/main/libt/libtext-csv-encoded-perl/libtext-csv-encoded-perl_0.25-2.debian.tar.xz
 Summary  : 'Encoding aware Text::CSV.'
 Group    : Development/Tools
 License  : Artistic-1.0 Artistic-1.0-Perl GPL-1.0
-Requires: perl-Text-CSV-Encoded-license
-Requires: perl-Text-CSV-Encoded-man
-Requires: perl(Text::CSV)
+Requires: perl-Text-CSV-Encoded-license = %{version}-%{release}
+BuildRequires : buildreq-cpan
 BuildRequires : perl(Text::CSV)
 
 %description
@@ -27,6 +26,15 @@ encoding_in  => "iso-8859-1", # the encoding comes into   Perl
 encoding_out => "cp1252",     # the encoding comes out of Perl
 });
 
+%package dev
+Summary: dev components for the perl-Text-CSV-Encoded package.
+Group: Development
+Provides: perl-Text-CSV-Encoded-devel = %{version}-%{release}
+
+%description dev
+dev components for the perl-Text-CSV-Encoded package.
+
+
 %package license
 Summary: license components for the perl-Text-CSV-Encoded package.
 Group: Default
@@ -35,19 +43,11 @@ Group: Default
 license components for the perl-Text-CSV-Encoded package.
 
 
-%package man
-Summary: man components for the perl-Text-CSV-Encoded package.
-Group: Default
-
-%description man
-man components for the perl-Text-CSV-Encoded package.
-
-
 %prep
-tar -xf %{SOURCE1}
-cd ..
 %setup -q -n Text-CSV-Encoded-0.25
-mkdir -p %{_topdir}/BUILD/Text-CSV-Encoded-0.25/deblicense/
+cd ..
+%setup -q -T -D -n Text-CSV-Encoded-0.25 -b 1
+mkdir -p deblicense/
 mv %{_topdir}/BUILD/debian/* %{_topdir}/BUILD/Text-CSV-Encoded-0.25/deblicense/
 
 %build
@@ -72,12 +72,13 @@ make TEST_VERBOSE=1 test
 
 %install
 rm -rf %{buildroot}
-mkdir -p %{buildroot}/usr/share/doc/perl-Text-CSV-Encoded
-cp LICENSE %{buildroot}/usr/share/doc/perl-Text-CSV-Encoded/LICENSE
+mkdir -p %{buildroot}/usr/share/package-licenses/perl-Text-CSV-Encoded
+cp LICENSE %{buildroot}/usr/share/package-licenses/perl-Text-CSV-Encoded/LICENSE
+cp deblicense/copyright %{buildroot}/usr/share/package-licenses/perl-Text-CSV-Encoded/deblicense_copyright
 if test -f Makefile.PL; then
-make pure_install PERL_INSTALL_ROOT=%{buildroot}
+make pure_install PERL_INSTALL_ROOT=%{buildroot} INSTALLDIRS=vendor
 else
-./Build install --installdirs=site --destdir=%{buildroot}
+./Build install --installdirs=vendor --destdir=%{buildroot}
 fi
 find %{buildroot} -type f -name .packlist -exec rm -f {} ';'
 find %{buildroot} -depth -type d -exec rmdir {} 2>/dev/null ';'
@@ -86,19 +87,20 @@ find %{buildroot} -type f -name '*.bs' -empty -exec rm -f {} ';'
 
 %files
 %defattr(-,root,root,-)
-/usr/lib/perl5/site_perl/5.26.1/Text/CSV/Encoded.pm
-/usr/lib/perl5/site_perl/5.26.1/Text/CSV/Encoded/Coder/Base.pm
-/usr/lib/perl5/site_perl/5.26.1/Text/CSV/Encoded/Coder/Encode.pm
-/usr/lib/perl5/site_perl/5.26.1/Text/CSV/Encoded/Coder/EncodeGuess.pm
-/usr/lib/perl5/site_perl/5.26.1/Text/CSV/README.pod
+/usr/lib/perl5/vendor_perl/5.26.1/Text/CSV/Encoded.pm
+/usr/lib/perl5/vendor_perl/5.26.1/Text/CSV/Encoded/Coder/Base.pm
+/usr/lib/perl5/vendor_perl/5.26.1/Text/CSV/Encoded/Coder/Encode.pm
+/usr/lib/perl5/vendor_perl/5.26.1/Text/CSV/Encoded/Coder/EncodeGuess.pm
+/usr/lib/perl5/vendor_perl/5.26.1/Text/CSV/README.pod
 
-%files license
-%defattr(-,root,root,-)
-/usr/share/doc/perl-Text-CSV-Encoded/LICENSE
-
-%files man
+%files dev
 %defattr(-,root,root,-)
 /usr/share/man/man3/Text::CSV::Encoded.3
 /usr/share/man/man3/Text::CSV::Encoded::Coder::Base.3
 /usr/share/man/man3/Text::CSV::Encoded::Coder::Encode.3
 /usr/share/man/man3/Text::CSV::Encoded::Coder::EncodeGuess.3
+
+%files license
+%defattr(0644,root,root,0755)
+/usr/share/package-licenses/perl-Text-CSV-Encoded/LICENSE
+/usr/share/package-licenses/perl-Text-CSV-Encoded/deblicense_copyright
