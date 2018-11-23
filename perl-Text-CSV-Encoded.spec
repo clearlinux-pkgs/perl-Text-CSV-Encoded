@@ -87,11 +87,11 @@ find %{buildroot} -type f -name '*.bs' -empty -exec rm -f {} ';'
 
 %files
 %defattr(-,root,root,-)
-/usr/lib/perl5/vendor_perl/5.26.1/Text/CSV/Encoded.pm
-/usr/lib/perl5/vendor_perl/5.26.1/Text/CSV/Encoded/Coder/Base.pm
-/usr/lib/perl5/vendor_perl/5.26.1/Text/CSV/Encoded/Coder/Encode.pm
-/usr/lib/perl5/vendor_perl/5.26.1/Text/CSV/Encoded/Coder/EncodeGuess.pm
-/usr/lib/perl5/vendor_perl/5.26.1/Text/CSV/README.pod
+/usr/lib/perl5/vendor_perl/5.28.0/Text/CSV/Encoded.pm
+/usr/lib/perl5/vendor_perl/5.28.0/Text/CSV/Encoded/Coder/Base.pm
+/usr/lib/perl5/vendor_perl/5.28.0/Text/CSV/Encoded/Coder/Encode.pm
+/usr/lib/perl5/vendor_perl/5.28.0/Text/CSV/Encoded/Coder/EncodeGuess.pm
+/usr/lib/perl5/vendor_perl/5.28.0/Text/CSV/README.pod
 
 %files dev
 %defattr(-,root,root,-)
