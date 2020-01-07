@@ -4,7 +4,7 @@
 #
 Name     : perl-Text-CSV-Encoded
 Version  : 0.25
-Release  : 11
+Release  : 12
 URL      : https://cpan.metacpan.org/authors/id/Z/ZA/ZARQUON/Text-CSV-Encoded-0.25.tar.gz
 Source0  : https://cpan.metacpan.org/authors/id/Z/ZA/ZARQUON/Text-CSV-Encoded-0.25.tar.gz
 Source1  : http://http.debian.net/debian/pool/main/libt/libtext-csv-encoded-perl/libtext-csv-encoded-perl_0.25-2.debian.tar.xz
@@ -12,6 +12,7 @@ Summary  : 'Encoding aware Text::CSV.'
 Group    : Development/Tools
 License  : Artistic-1.0 Artistic-1.0-Perl GPL-1.0
 Requires: perl-Text-CSV-Encoded-license = %{version}-%{release}
+Requires: perl-Text-CSV-Encoded-perl = %{version}-%{release}
 BuildRequires : buildreq-cpan
 BuildRequires : perl(Text::CSV)
 
@@ -30,6 +31,7 @@ encoding_out => "cp1252",     # the encoding comes out of Perl
 Summary: dev components for the perl-Text-CSV-Encoded package.
 Group: Development
 Provides: perl-Text-CSV-Encoded-devel = %{version}-%{release}
+Requires: perl-Text-CSV-Encoded = %{version}-%{release}
 
 %description dev
 dev components for the perl-Text-CSV-Encoded package.
@@ -43,18 +45,28 @@ Group: Default
 license components for the perl-Text-CSV-Encoded package.
 
 
+%package perl
+Summary: perl components for the perl-Text-CSV-Encoded package.
+Group: Default
+Requires: perl-Text-CSV-Encoded = %{version}-%{release}
+
+%description perl
+perl components for the perl-Text-CSV-Encoded package.
+
+
 %prep
 %setup -q -n Text-CSV-Encoded-0.25
-cd ..
-%setup -q -T -D -n Text-CSV-Encoded-0.25 -b 1
+cd %{_builddir}
+tar xf %{_sourcedir}/libtext-csv-encoded-perl_0.25-2.debian.tar.xz
+cd %{_builddir}/Text-CSV-Encoded-0.25
 mkdir -p deblicense/
-mv %{_topdir}/BUILD/debian/* %{_topdir}/BUILD/Text-CSV-Encoded-0.25/deblicense/
+cp -r %{_builddir}/debian/* %{_builddir}/Text-CSV-Encoded-0.25/deblicense/
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
-export LANG=C
+export LANG=C.UTF-8
 if test -f Makefile.PL; then
 %{__perl} Makefile.PL
 make  %{?_smp_mflags}
@@ -64,7 +76,7 @@ else
 fi
 
 %check
-export LANG=C
+export LANG=C.UTF-8
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
@@ -73,8 +85,8 @@ make TEST_VERBOSE=1 test
 %install
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/perl-Text-CSV-Encoded
-cp LICENSE %{buildroot}/usr/share/package-licenses/perl-Text-CSV-Encoded/LICENSE
-cp deblicense/copyright %{buildroot}/usr/share/package-licenses/perl-Text-CSV-Encoded/deblicense_copyright
+cp %{_builddir}/Text-CSV-Encoded-0.25/LICENSE %{buildroot}/usr/share/package-licenses/perl-Text-CSV-Encoded/8abdfcaaa2f121a1cd616bcb7838f2767fbbc74b
+cp %{_builddir}/Text-CSV-Encoded-0.25/deblicense/copyright %{buildroot}/usr/share/package-licenses/perl-Text-CSV-Encoded/70500cb8886ac705688eeedbdf90505ada368063
 if test -f Makefile.PL; then
 make pure_install PERL_INSTALL_ROOT=%{buildroot} INSTALLDIRS=vendor
 else
@@ -87,10 +99,6 @@ find %{buildroot} -type f -name '*.bs' -empty -exec rm -f {} ';'
 
 %files
 %defattr(-,root,root,-)
-/usr/lib/perl5/vendor_perl/5.28.2/Text/CSV/Encoded.pm
-/usr/lib/perl5/vendor_perl/5.28.2/Text/CSV/Encoded/Coder/Base.pm
-/usr/lib/perl5/vendor_perl/5.28.2/Text/CSV/Encoded/Coder/Encode.pm
-/usr/lib/perl5/vendor_perl/5.28.2/Text/CSV/Encoded/Coder/EncodeGuess.pm
 
 %files dev
 %defattr(-,root,root,-)
@@ -101,5 +109,12 @@ find %{buildroot} -type f -name '*.bs' -empty -exec rm -f {} ';'
 
 %files license
 %defattr(0644,root,root,0755)
-/usr/share/package-licenses/perl-Text-CSV-Encoded/LICENSE
-/usr/share/package-licenses/perl-Text-CSV-Encoded/deblicense_copyright
+/usr/share/package-licenses/perl-Text-CSV-Encoded/70500cb8886ac705688eeedbdf90505ada368063
+/usr/share/package-licenses/perl-Text-CSV-Encoded/8abdfcaaa2f121a1cd616bcb7838f2767fbbc74b
+
+%files perl
+%defattr(-,root,root,-)
+/usr/lib/perl5/vendor_perl/5.30.1/Text/CSV/Encoded.pm
+/usr/lib/perl5/vendor_perl/5.30.1/Text/CSV/Encoded/Coder/Base.pm
+/usr/lib/perl5/vendor_perl/5.30.1/Text/CSV/Encoded/Coder/Encode.pm
+/usr/lib/perl5/vendor_perl/5.30.1/Text/CSV/Encoded/Coder/EncodeGuess.pm
