@@ -4,7 +4,7 @@
 #
 Name     : perl-Text-CSV-Encoded
 Version  : 0.25
-Release  : 13
+Release  : 14
 URL      : https://cpan.metacpan.org/authors/id/Z/ZA/ZARQUON/Text-CSV-Encoded-0.25.tar.gz
 Source0  : https://cpan.metacpan.org/authors/id/Z/ZA/ZARQUON/Text-CSV-Encoded-0.25.tar.gz
 Source1  : http://http.debian.net/debian/pool/main/libt/libtext-csv-encoded-perl/libtext-csv-encoded-perl_0.25-2.debian.tar.xz
@@ -114,7 +114,7 @@ find %{buildroot} -type f -name '*.bs' -empty -exec rm -f {} ';'
 
 %files perl
 %defattr(-,root,root,-)
-/usr/lib/perl5/vendor_perl/5.30.2/Text/CSV/Encoded.pm
-/usr/lib/perl5/vendor_perl/5.30.2/Text/CSV/Encoded/Coder/Base.pm
-/usr/lib/perl5/vendor_perl/5.30.2/Text/CSV/Encoded/Coder/Encode.pm
-/usr/lib/perl5/vendor_perl/5.30.2/Text/CSV/Encoded/Coder/EncodeGuess.pm
+/usr/lib/perl5/vendor_perl/5.30.3/Text/CSV/Encoded.pm
+/usr/lib/perl5/vendor_perl/5.30.3/Text/CSV/Encoded/Coder/Base.pm
+/usr/lib/perl5/vendor_perl/5.30.3/Text/CSV/Encoded/Coder/Encode.pm
+/usr/lib/perl5/vendor_perl/5.30.3/Text/CSV/Encoded/Coder/EncodeGuess.pm
