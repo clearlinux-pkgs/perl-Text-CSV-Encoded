@@ -4,7 +4,7 @@
 #
 Name     : perl-Text-CSV-Encoded
 Version  : 0.25
-Release  : 23
+Release  : 24
 URL      : https://cpan.metacpan.org/authors/id/Z/ZA/ZARQUON/Text-CSV-Encoded-0.25.tar.gz
 Source0  : https://cpan.metacpan.org/authors/id/Z/ZA/ZARQUON/Text-CSV-Encoded-0.25.tar.gz
 Source1  : http://http.debian.net/debian/pool/main/libt/libtext-csv-encoded-perl/libtext-csv-encoded-perl_0.25-2.debian.tar.xz
